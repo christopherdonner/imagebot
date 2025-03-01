@@ -28,7 +28,8 @@ app.get('/', (req, res) => {
   // res.send("'Now using http..'");
   fs.readdir('./src/public/img/', (err, files)=>{
     console.log(files);
-    res.render("index", {images: img});
+    for(file of files){}
+    res.render("index", {images: files});
   })
 
   
