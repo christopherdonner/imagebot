@@ -7,7 +7,7 @@ const http = require('http'),
       PORT = 81;
 
 
-// let images = fs.readdir(__dirname + '/public/img', (img)=>{console.log(img)})
+let images = fs.readdir(__dirname + '/src/public/img/', (img)=>{console.log(img)})
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -18,18 +18,15 @@ app.use(express.static('public'));
 
 var exphbs = require("express-handlebars");
 
-// app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-// app.set("view engine", "handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
   
 // // Use Handlebars to render the main index.html page with the coyotes in it.
-app.get("/", function(req, res) {
-    res.render("index", {});
-});
 
 
 app.get('/', (req, res) => {
-  res.send('Now using https..');
+  res.send("'Now using http..'");
 });
 let options = {},
     server = http.createServer(options, app);
