@@ -7,7 +7,6 @@ const http = require('http'),
       PORT = 81;
 
 
-let images = fs.readdir(__dirname + '/src/public/img/', (img)=>{console.log(img)})
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -26,7 +25,13 @@ app.set("view engine", "handlebars");
 
 
 app.get('/', (req, res) => {
-  res.send("'Now using http..'");
+  // res.send("'Now using http..'");
+  fs.readdir('./src/public/img/', (err, files)=>{
+    console.log(files);
+    res.render("index", {images: img});
+  })
+
+  
 });
 let options = {},
     server = http.createServer(options, app);
