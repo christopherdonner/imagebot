@@ -14,7 +14,7 @@ img {
 
 img:hover {
     opacity: 100;
-    transform: scale(4);
-    transition: transform, 0.8s;
+    transform: scale(1.5);
+    transition: transform, 0.5s;
     z-index: 9000;
 }
