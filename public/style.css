@@ -1,3 +1,20 @@
 body {
     display: inline;
+    margin: 20px;
+    padding: 20px;
+}
+
+img {
+    opacity: 80;
+    transform: scale(1);
+    transition: transform, 1s;
+    z-index: 1;
+    position: relative;
+}
+
+img:hover {
+    opacity: 100;
+    transform: scale(4);
+    transition: transform, 0.8s;
+    z-index: 9000;
 }
