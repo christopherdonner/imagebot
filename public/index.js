@@ -5,6 +5,5 @@ function expando(that, id){
     that.appendChild(image);
     console.log(that);
     console.log(id);
-    that.height=800;
-
+    that.classList.add('big');
 }
