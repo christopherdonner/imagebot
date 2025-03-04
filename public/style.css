@@ -1,5 +1,4 @@
 body {
-    display: inline;
     margin: 20px;
     padding: 20px;
 }
@@ -16,12 +15,13 @@ img {
 img:hover {
     opacity: 1;
     transform: scale(1.1);
-    box-shadow: 2px 4px 2px 4px black;
+    box-shadow: 2px 4px 8px 4px black;
     transition: transform, box-shadow, 0.1s;
     z-index: 9000;
 }
 
 img.big {
-    height: 100%;
-    width: 100%;
+    transform: scale(3);
+    z-index: 9000;
+    opacity: 1;
 }
