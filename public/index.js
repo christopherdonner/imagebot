@@ -1,9 +1,8 @@
 console.log('index.js')
 
 function expando(that, id){
-    let image = document.createElement('img');
-    that.appendChild(image);
-    console.log(that);
-    console.log(id);
-    that.classList.add('big');
-}
+    let key = that.classList;
+    console.log(key);
+    that.classList.length < 1 ? that.classList.add('big') : that.classList.remove('big');
+}   
+
