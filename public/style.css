@@ -1,9 +1,11 @@
 body {
-    margin: 40px;
-    padding: 40px;
+    margin: 20px;
+    padding: 20px;
 }
 
 img {
+    height: 80px;
+    width: 80px;
     opacity: 0.9;
     transform: scale(1);
     transition: transform, 0.1s;
@@ -21,7 +23,9 @@ img:hover {
 }
 
 img.big {
-    transform: scale(4);
+    width: unset;
+    /* height: unset; */
+    transform: scale(7);
     z-index: 9000;
     opacity: 1;
     box-shadow: 2px 4px 8px 4px black;
