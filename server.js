@@ -1,12 +1,12 @@
 let express = require("express"),
-    app = express(),
-    exphbs = require("express-handlebars"),
-    imagesArray = [],
-    resizeImg = require('resize-img');
+  app = express(),
+  exphbs = require("express-handlebars"),
+  imagesArray = [],
+  resizeImg = require('resize-img');
 
 const http = require('http'),
   fs = require('fs'),
-  PORT = 81;
+  PORT = 80;
 
 
 // Sets up the Express app to handle data parsing
@@ -19,27 +19,30 @@ app.use(express.static('public'));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-fs.mkdir('./public/img/thumbnails');
 fs.readdir('./public/img/', (err, files) => {
-  for(let file of files){
+  for (let file of files) {
     console.log(file);
-    (async () => {
-      const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
-        width: 128,
-        height: 128
-      });
+    fs.readFile(`./public/img/${file}.thumb.png`, 'utf8', (err, data) => {
+      if (!data) {
+        (async () => {
+          const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
+            height: 128
+          });
 
-      fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
-      imagesArray.push(`${file}.thumb.png`);
-      
-    })();
+          fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
+          imagesArray.push(`${file}.thumb.png`);
+
+        })();
+      }
+    })
+
   }
-  
+
 })
 
 
 app.get('/', (req, res) => {
-    res.render("index", { images: imagesArray });
+  res.render("index", { images: imagesArray });
 });
 let options = {},
   server = http.createServer(options, app);
