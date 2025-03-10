@@ -1,7 +1,8 @@
 let express = require("express"),
     app = express(),
     exphbs = require("express-handlebars"),
-    imagesArray = [];
+    imagesArray = [],
+    resizeImg = require('resize-img');
 
 const http = require('http'),
   fs = require('fs'),
@@ -19,8 +20,24 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 fs.readdir('./public/img/', (err, files) => {
-  files.forEach((image)=>{
-    imagesArray.push(image);
+  files.forEach((file)=>{
+    console.log(file);
+
+
+    (async () => {
+        // let nuImage = fs.readFileSync(`./public/img/${file}`);
+        const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
+          width: 128,
+          height: 128
+      });
+      console.log(image);
+  //  console.log(nuImage);
+      
+      fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
+      imagesArray.push(`${file}.thumb.png`);
+
+  })();
+
   })
 })
 
