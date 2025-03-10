@@ -19,34 +19,27 @@ app.use(express.static('public'));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+fs.mkdir('./public/img/thumbnails');
 fs.readdir('./public/img/', (err, files) => {
-  files.forEach((file)=>{
+  for(let file of files){
     console.log(file);
-
-
     (async () => {
-        // let nuImage = fs.readFileSync(`./public/img/${file}`);
-        const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
-          width: 128,
-          height: 128
+      const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
+        width: 128,
+        height: 128
       });
-      console.log(image);
-  //  console.log(nuImage);
-      
+
       fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
       imagesArray.push(`${file}.thumb.png`);
-
-  })();
-
-  })
+      
+    })();
+  }
+  
 })
 
 
 app.get('/', (req, res) => {
-  // get the directory listing of the images folder
-  // fs.readdir('./public/img/', (err, files) => {
     res.render("index", { images: imagesArray });
-  // })
 });
 let options = {},
   server = http.createServer(options, app);
