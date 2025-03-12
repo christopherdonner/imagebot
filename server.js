@@ -6,7 +6,7 @@ let express = require("express"),
 
 const http = require('http'),
   fs = require('fs'),
-  PORT = 81;
+  PORT = 80;
 
 
 // Sets up the Express app to handle data parsing
