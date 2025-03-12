@@ -29,4 +29,5 @@ img.big {
     z-index: 9000;
     opacity: 1;
     box-shadow: 2px 4px 8px 4px black;
+    transition: transform, width, 0.1s;
 }
