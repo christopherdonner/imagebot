@@ -1,4 +1,4 @@
-# gallery
+# dumpgallery
 art gallery/css sandbox
 
 dump images into /img/ folder, server will build and serve webpage of said images
