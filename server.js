@@ -22,20 +22,21 @@ app.set("view engine", "handlebars");
 fs.readdir('./public/img/', (err, files) => {
   for (let file of files) {
     console.log(file);
-    fs.readFile(`./public/img/${file}.thumb.png`, 'utf8', (err, data) => {
-      if (!data) {
-        (async () => {
-          const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
-            height: 128
-          });
+    if (!file.includes('thumb.png')) {
 
-          fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
-          imagesArray.push(`${file}.thumb.png`);
+      (async () => {
+        const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
+          width: 128,
+          height: 128
+        });
+        console.log(`generating thumbnail for ${file}`);
+        fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
+        imagesArray.push(`${file}.thumb.png`);
 
-        })();
-      }
-    })
-
+      })();
+    } else {
+      console.log(`thumbnail for ${file} already exists`)
+    }
   }
 
 })
