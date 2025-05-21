@@ -1,6 +1,8 @@
 body {
     margin: 20px;
     padding: 20px;
+    background-color: grey;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 img {
@@ -11,7 +13,10 @@ img {
     transition: transform, 0.1s;
     z-index: 1;
     position: relative;
+    border: 4px solid, lightgrey;
     border-radius: 2px;
+    /* margin: 2px; */
+    /* padding: 1px; */
 }
 
 img:hover {
@@ -20,7 +25,7 @@ img:hover {
     box-shadow: 6px 12px 18px 12px black;
     transition: transform, clip-path, 0.2s;
     z-index: 9000;
-    clip-path: polygon(0 0, 103% 0, 96% 100%, 4% 103%);
+    /* clip-path: polygon(0 0, 103% 0, 96% 100%, 4% 103%); */
 }
 
 img.big {
@@ -32,4 +37,22 @@ img.big {
     opacity: 1;
     box-shadow: 2px 4px 8px 4px black;
     transition: transform, width, 0.1s;
+}
+
+@media (width <= 1250px) {
+  img {
+    height: 60px;
+    width: 60px;
+  }
+
+  img.big {
+       width: unset;
+    /* height: unset; */
+    transform: scale(4);
+    transition: transform, width, 0.5s;
+    z-index: 9000;
+    opacity: 1;
+    box-shadow: 2px 4px 8px 4px black;
+    transition: transform, width, 0.1s;
+  }
 }
