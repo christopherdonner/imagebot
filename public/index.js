@@ -12,6 +12,11 @@ function expando(that, id){
     }
     console.log(that);
     console.log(key);
-    that.classList.length < 1    ? that.classList.add('big') : that.classList.remove('big');
+
+    if(that.classList.contains('big')){
+        that.classList.remove('big');
+    } else {
+        that.classList.add('big')
+    }
 }   
 
