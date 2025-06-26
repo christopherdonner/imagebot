@@ -1,6 +1,9 @@
 console.log('index.js')
 
 function expando(that, id){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
     let key = that.classList,
         newSRC;
     let firstHalfSRC = that.src.split('.').splice(0,that.src.split('.').length-3);
@@ -14,9 +17,12 @@ function expando(that, id){
     console.log(key);
 
     if(that.classList.contains('big')){
+        that.parentElement.setAttribute('href', that.src);
         that.classList.remove('big');
+        
     } else {
-        that.classList.add('big')
+        that.classList.add('big');
+        document.querySelector('.overlay').classList.add('visible')
     }
 }   
 

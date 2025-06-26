@@ -2,7 +2,9 @@
 
 </header>
 {{#each images}}
-    <article><img id="{{this}}" src="/img/{{this}}" height=80 onclick="expando(this, '{{this}}')"></article>
+    <article>
+      <a><img id="{{this}}" src="/img/{{this}}" height=80 onclick="expando(this, '{{this}}')"></a>
+    </article>
   {{/each}}
   <footer>
     This page is created and served using <a href="https://github.com/christopherdonner/imagebot">imageBot</a>

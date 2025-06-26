@@ -23,6 +23,21 @@ img {
     /* padding: 1px; */
 }
 
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: darkgrey;
+    opacity: 0.8;
+    visibility: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.overlay.visible {
+  visibility: visible;
+}
+
 img:hover {
     opacity: 1;
     transform: scale(2);
@@ -36,7 +51,7 @@ img.big {
     width: unset;
     /* height: unset; */
     transform: scale(7);
-    transition: transform, width, 0.5s;
+    transition: transform, width, 1s;
     z-index: 9000;
     opacity: 1;
     box-shadow: 2px 4px 8px 4px black;
