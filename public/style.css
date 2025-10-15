@@ -1,6 +1,6 @@
 body {
-    margin: 20px;
-    padding: 20px;
+    margin: 1%;
+    /* padding: 14px; */
     background-color: grey;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -10,8 +10,8 @@ article {
 }
 
 img {
-    height: 80px;
-    width: 80px;
+    height: 128px;
+    width: 128px;
     opacity: 0.9;
     transform: scale(1);
     transition: transform, 0.1s;
@@ -58,10 +58,28 @@ img.big {
     transition: transform, width, 0.1s;
 }
 
+/* @media (width > 1000px) {
+img {
+    height: 256px;
+    width: 256px;
+    // padding: 2px; 
+    margin: 2px;
+  }
+} */
+
 @media (width <= 800px) {
+  body {
+    /* margin: 5px; */
+    /* padding: 5px; */
+    background-color: grey;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
   img {
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45px;
+    /* padding: 1px; */
+    margin: 1px;
   }
 
   img.big {

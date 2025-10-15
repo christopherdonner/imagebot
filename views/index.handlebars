@@ -3,7 +3,7 @@
 </header>
 {{#each images}}
     <article>
-      <a><img id="{{this.image}}" src="{{this.thumb}}" title="{{this.description}}" height=80 onclick="expando(this, '{{this}}')"></a>
+      <a><img id="{{this.image}}" src="{{this.thumb}}" title="{{this.description}}" height=80 onmouseover="enhance(this)" onclick="expando(this, '{{this}}')"></a>
     </article>
   {{/each}}
   <footer>
