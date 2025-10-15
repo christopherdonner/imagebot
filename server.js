@@ -6,7 +6,7 @@ let express = require("express"),
 
 const http = require('http'),
   fs = require('fs'),
-  PORT = 88;
+  PORT = 80;
 
   const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -35,26 +35,26 @@ console.log(image);
 
 fs.readdir('./public/img/', (err, files) => {
   for (let file of files) {
-    
+    var caption = "";
     if (!file.includes('thumb.png')) {
 
-
       (async () => {
-    console.log(file);
+        console.log(file);
+        // caption = await blip(file);
         const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
           width: 128,
           height: 128
         });
+
        
         fs.writeFileSync(`./public/img/${file}.thumb.png`, image);
 
-        // blip(`${file}.thumb.png`);
-        
         imagesArray.push({
           name: file,
           image: `img/${file}`,
           thumb: `img/${file}.thumb.png`,
-          description: await blip(file)
+          description: caption.trim()
+
         });
 
       })();
@@ -65,7 +65,7 @@ fs.readdir('./public/img/', (err, files) => {
 
 
 app.get('/', (req, res) => {
-  res.render("index", { images: imagesArray });
+  res.render("index", { images: imagesArray.reverse() });
 });
 let options = {},
   server = http.createServer(options, app);
