@@ -17,6 +17,7 @@ function expando(that, id){
     console.log(key);
 
     if(that.classList.contains('big')){
+        that.parentElement.removeAttribute('href');
         that.classList.remove('big');
         
     } else {
