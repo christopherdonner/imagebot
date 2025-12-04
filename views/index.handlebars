@@ -1,12 +1,16 @@
 <header>
-
+Hi!
 </header>
 {{#each images}}
-    <article style="background-image: url('{{this.thumb}}')">
-      <a><img id="{{this.image}}" src="{{this.thumb}}" title="{{this.description}}" height=80 onmouseover="enhance(this)" onclick="expando(this, '{{this}}')"></a>
+    <article>
+      <a><img id="{{this.image}}" src="{{this.thumb}}" title="{{this.description}}" height=80 onmouseover="enhance(this)" onclick="expando(this, '{{this}}')">
+      <div class="reflection" style="background-image: url('{{this.thumb}}')"></div>
+      </a>
     </article>
   {{/each}}
   <footer>
     This page is created and served using <a href="https://github.com/christopherdonner/imagebot">imageBot</a>
     All artwork and javascript seen here is the creation of Christopher Donner.
   </footer>
+
+  
