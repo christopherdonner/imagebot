@@ -3,7 +3,7 @@ Hi!
 </header>
 {{#each images}}
     <article>
-      <a><img id="{{this.image}}" src="{{this.thumb}}" title="{{this.description}}" height=80 onmouseover="enhance(this)" onclick="expando(this, '{{this}}')">
+      <a><img id="{{this.image}}" src="{{this.thumb}}" full="{{this.image}}" data-id="{{this.id}}" title="{{this.description}}" height=80 onmouseover="enhance(this)" onclick="view(this, '{{this.id}}')">
       <div class="reflection" style="background-image: url('{{this.thumb}}')"></div>
       </a>
     </article>
