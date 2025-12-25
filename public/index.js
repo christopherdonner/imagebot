@@ -2,17 +2,17 @@
 function view(that, id) {
 
     let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image');
-    let o = 1;
+        viewerImage = viewer.querySelector('.image'),
+        o = 1;
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<img src='${that.src}' onclick='shrinkAll()' class='enhanced-image'/>`
 
     let nextButton = viewer.querySelector('#next'),
-        prevButton = viewer.querySelector('#prev');
+        prevButton = viewer.querySelector('#last');
 
-    nextButton.addEventListener('click', function () {
         let viewerID = id;
+    nextButton.addEventListener('click', function () {
 
         let nextImage = document.querySelector(`img[data-id='${parseInt(viewerID) + o}']`),
             nextImageSRC = nextImage.getAttribute('full');
@@ -22,7 +22,13 @@ function view(that, id) {
             viewerID = 1;
         }
     });
+    prevButton.addEventListener('click', function () {
 
+        let prevImage = document.querySelector(`img[data-id='${parseInt(viewerID) - o}']`),
+            prevImageSRC = prevImage.getAttribute('full');
+        viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
+        o++;
+    });
 }
 
 function enhance(that) {

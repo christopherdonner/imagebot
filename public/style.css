@@ -145,10 +145,8 @@ img.big {
 }
 
 
-@media (width <=800px) {
+/* @media (width <=800px) {
   body {
-    /* margin: 5px; */
-    /* padding: 5px; */
     background-color: grey;
     font-family: Arial, Helvetica, sans-serif;
   }
@@ -156,13 +154,11 @@ img.big {
   img {
     height: 45px;
     width: 45px;
-    /* padding: 1px; */
     margin: 1px;
   }
 
   img.big {
     width: unset;
-    /* height: unset; */
     transform: scale(4);
     transition: transform, width, 0.5s;
     z-index: 9000;
@@ -170,4 +166,4 @@ img.big {
     box-shadow: 2px 4px 8px 4px black;
     transition: transform, width, 0.1s;
   }
-}
+} */
