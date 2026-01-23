@@ -2,8 +2,8 @@
 function view(that, id) {
 
     let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image'),
-        o = 1;
+        viewerImage = viewer.querySelector('.image');
+        viewer.id = id;
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<img src='${that.src}' onclick='shrinkAll()' class='enhanced-image'/>`
@@ -13,17 +13,11 @@ function view(that, id) {
 
         let viewerID = id;
     nextButton.addEventListener('click', function () {
-// nextImage(that);
-        let nextImage = document.querySelector(`img[data-id='${parseInt(viewerID) + o}']`),
-            nextImageSRC = nextImage.getAttribute('full');
-        viewerImage.innerHTML = `<img src='${nextImageSRC}'/>`
-        o++;
-        if (parseInt(viewerID) + o > document.querySelectorAll('img').length) {
-            viewerID = 1;
-        }
+nextImage();
+
     });
     prevButton.addEventListener('click', function () {
-        previous(that);
+        previous();
         // let prevImage = document.querySelector(`img[data-id='${parseInt(viewerID) - o}']`),
         //     prevImageSRC = prevImage.getAttribute('full');
         // viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
@@ -31,38 +25,31 @@ function view(that, id) {
     });
 }
 
-function nextImage(that){
+function nextImage(){
    let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
-        currentID = that.getAttribute('data-id'),
-        prevID = parseInt(currentID) + 1;
-    let prevImage = document.querySelector(`img[data-id='${prevID}']`),
-        prevImageSRC = prevImage.getAttribute('full');
-    viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
+        currentID = viewer.id,
+        nextID = parseInt(currentID) + 1;
+    let nextImage = document.querySelector(`img[data-id='${nextID}']`),
+        nextImageSRC = nextImage.getAttribute('full');
+    viewerImage.innerHTML = `<img src='${nextImageSRC}'/>`
+    viewer.id = nextID;
+    console.log('next' )
 }
 
 
-function previous(that){
+function previous(){
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
-        currentID = that.getAttribute('data-id'),
+        currentID = viewer.id
         prevID = parseInt(currentID) - 1;
     let prevImage = document.querySelector(`img[data-id='${prevID}']`),
         prevImageSRC = prevImage.getAttribute('full');
     viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
-    // that.setAttribute('data-id', prevID);
+    viewer.id = prevID;
+    console.log('previous' )
 }
 
-function previous(that){
-    let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image'),
-        currentID = that.getAttribute('data-id'),
-        prevID = parseInt(currentID) + 1;
-    let prevImage = document.querySelector(`img[data-id='${prevID}']`),
-        prevImageSRC = prevImage.getAttribute('full');
-    viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
-    that.setAttribute('data-id', prevID);
-}
 
 function enhance(that) {
     console.log('ehnahce')
