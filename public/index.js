@@ -3,27 +3,53 @@ function view(that, id) {
 
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image');
-    let o = 1;
+        viewer.id = id;
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<img src='${that.src}' onclick='shrinkAll()' class='enhanced-image'/>`
 
     let nextButton = viewer.querySelector('#next'),
-        prevButton = viewer.querySelector('#prev');
+        prevButton = viewer.querySelector('#last');
 
-    nextButton.addEventListener('click', function () {
         let viewerID = id;
+    nextButton.addEventListener('click', function () {
+nextImage();
 
-        let nextImage = document.querySelector(`img[data-id='${parseInt(viewerID) + o}']`),
-            nextImageSRC = nextImage.getAttribute('full');
-        viewerImage.innerHTML = `<img src='${nextImageSRC}'/>`
-        o++;
-        if (parseInt(viewerID) + o > document.querySelectorAll('img').length) {
-            viewerID = 1;
-        }
     });
-
+    prevButton.addEventListener('click', function () {
+        previous();
+        // let prevImage = document.querySelector(`img[data-id='${parseInt(viewerID) - o}']`),
+        //     prevImageSRC = prevImage.getAttribute('full');
+        // viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
+        // o++;
+    });
 }
+
+function nextImage(){
+   let viewer = document.querySelector('.viewer'),
+        viewerImage = viewer.querySelector('.image'),
+        currentID = viewer.id,
+        nextID = parseInt(currentID) + 1;
+    let nextImage = document.querySelector(`img[data-id='${nextID}']`),
+        nextImageSRC = nextImage.getAttribute('full');
+    viewerImage.innerHTML = `<img src='${nextImageSRC}'/>`
+    viewer.id = nextID;
+    console.log('next' )
+}
+
+
+function previous(){
+    let viewer = document.querySelector('.viewer'),
+        viewerImage = viewer.querySelector('.image'),
+        currentID = viewer.id
+        prevID = parseInt(currentID) - 1;
+    let prevImage = document.querySelector(`img[data-id='${prevID}']`),
+        prevImageSRC = prevImage.getAttribute('full');
+    viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
+    viewer.id = prevID;
+    console.log('previous' )
+}
+
 
 function enhance(that) {
     console.log('ehnahce')

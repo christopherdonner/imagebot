@@ -6,6 +6,7 @@ let express = require("express"),
 
 const http = require('http'),
   fs = require('fs'),
+  tqdm = require('tqdm');
   PORT = 80;
 
 const util = require('util');
@@ -38,7 +39,7 @@ let id = 0,
 
 fs.readdir('./public/img/', (err, files) => {
 
-  for (let file of files) {
+  for (let file of tqdm(files)) {
     if (!file.includes('thumb.png')) {
       (async () => {
         const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
@@ -59,12 +60,13 @@ fs.readdir('./public/img/', (err, files) => {
       })();
     }
   }
+  imagesArray.reverse();
 
 })
 
 
 app.get('/', (req, res) => {
-  res.render("index", { images: imagesArray.reverse() });
+  res.render("index", { images: imagesArray });
 });
 let options = {},
   server = http.createServer(options, app);
