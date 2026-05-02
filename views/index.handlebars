@@ -1,9 +1,18 @@
 <header>
-Hi!
+<h1>Christopher Donner</h1>
+<nav>
+  <ul>
+    <li><a href="/">home</a></li>
+    {{#each directoryListSimple}}
+      <li><a href="/{{this}}">{{this}}</a></li>
+    {{/each}}
+    <li><a href="/about">about</a></li>
+  </ul>
+</nav>
 </header>
 {{#each images}}
     <article>
-      <a><img id="{{this.image}}" src="{{this.thumb}}" full="{{this.image}}" data-id="{{this.id}}" title="{{this.description}}" height=80 onmouseover="enhance(this)" onclick="view(this, '{{this.id}}')">
+      <a><img id="{{this.image}}" src="{{this.thumb}}" full="{{this.image}}" data-id="{{this.id}}" title="{{this.name}}" height=80 onmouseover="enhance(this)" onclick="view(this, '{{this.id}}')">
       <div class="reflection" style="background-image: url('{{this.thumb}}')"></div>
       </a>
     </article>

@@ -13,13 +13,13 @@
     <title>Christopher's Gallery!</title>
 </head>
 <body>
-    <div class="viewer hidden">
-        <div id="last"><</div>
-            <div class="image"></div>
-        <div id="next">></div>
+    <div class="overlay" onclick="shrinkAll()"></div>
+        <div class="viewer hidden">
+        <div id="last" onclick="previousImage()" onkeypress="previousImageKeyboard()"><</div>
+            <a><div class="image"></div></a>
+        <div id="next" onclick="nextImage()" onkeypress="nextImageKeyboard()">></div>
         <div id="close" onclick="closeViewer(this)">X</div>
     </div>
-    <div class="overlay" onclick="shrinkAll()"></div>
     {{{body}}}
 </body>
 </html>
