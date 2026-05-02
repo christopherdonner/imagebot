@@ -7,7 +7,7 @@ let express = require("express"),
 const http = require('http'),
   fs = require('fs'),
   tqdm = require('tqdm');
-  PORT = 80;
+PORT = 80;
 
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -35,18 +35,28 @@ function preProcessImage(image) {
 }
 
 let id = 0,
-  caption = "";
+  caption = "",
+  directoryList = [],
+  directoryListSimple = [],
+  assetPath = "./public/img/";
 
 fs.readdir('./public/img/', (err, files) => {
 
   for (let file of tqdm(files)) {
-    if (!file.includes('thumb.png')) {
+    console.log(file)
+    let isDir = fs.existsSync(`${assetPath}${file}`) && fs.lstatSync(`${assetPath}${file}`).isDirectory();
+    console.log(isDir);
+    if (isDir) {
+      directoryList.push(`${assetPath}${file}`);
+      directoryListSimple.push(file);
+    }
+    else if (!file.includes('thumb.png')) {
       (async () => {
-        const image = await resizeImg(fs.readFileSync(`./public/img/${file}`), {
+        const image = await resizeImg(fs.readFileSync(`${assetPath}${file}`), {
           width: 128,
           height: 128
         });
-        imagesArray.push({
+        imagesArray.unshift({
           name: file,
           image: `img/${file}`,
           thumb: `img/${file}.thumb.png`,
@@ -60,14 +70,59 @@ fs.readdir('./public/img/', (err, files) => {
       })();
     }
   }
-  imagesArray.reverse();
+  if (directoryList.length > 0) {
+  for (let dir of directoryList) {
+    console.log(dir);
+    let dirImagesArray = [];
+      app.get(`/${directoryListSimple[directoryList.indexOf(dir)]}`, (req, res) => {
+        res.render("index", { directoryListSimple: directoryListSimple, images: dirImagesArray });
+      })
+    let dirFiles = fs.readdirSync(dir);
+    for (let file of dirFiles) {
+      // console.log(file);
+      console.log(file);
+      if (!file.includes('thumb.png')) {
+        (async () => {
+          const image = await resizeImg(fs.readFileSync(`${dir}/${file}`), {
+            width: 128,
+            height: 128
+          });
+
+          dirImagesArray.unshift({
+            name: file.split("_")[0],
+            image: `img/${directoryListSimple[directoryList.indexOf(dir)]}/${file}`,
+            thumb: `img/${directoryListSimple[directoryList.indexOf(dir)]}/${file}.thumb.png`,
+            description: caption.trim(),
+            id: id
+          });
+          id++;
+          fs.writeFileSync(`${dir}/${file}.thumb.png`, image);
+          // fs.writeFileSync(`./public/img/${dir}/${file}.thumb.png`, image);
+        })();
+      }
+    
+    }
+
+  }
+}
 
 })
 
 
+
+
 app.get('/', (req, res) => {
-  res.render("index", { images: imagesArray });
+  res.render("index", { directoryListSimple: directoryListSimple, images: imagesArray });
 });
+
+
+
+app.get('/about', (req, res) => {
+  res.render("about", { directoryListSimple: directoryListSimple, images: imagesArray });
+});
+
+
+
 let options = {},
   server = http.createServer(options, app);
 
