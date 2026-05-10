@@ -12,7 +12,12 @@ PORT = 80;
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-
+let id = 0,
+  caption = "",
+  directoryList = [],
+  directoryListSimple = [],
+  assetPath = "./public/img/";
+  
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,22 +35,10 @@ async function blip(file) {
   return stdout;
 }
 
-function preProcessImage(image) {
-  console.log(image);
-}
-
-let id = 0,
-  caption = "",
-  directoryList = [],
-  directoryListSimple = [],
-  assetPath = "./public/img/";
-
 fs.readdir('./public/img/', (err, files) => {
-
+console.log("building home page gallery...")
   for (let file of tqdm(files)) {
-    console.log(file)
     let isDir = fs.existsSync(`${assetPath}${file}`) && fs.lstatSync(`${assetPath}${file}`).isDirectory();
-    console.log(isDir);
     if (isDir) {
       directoryList.push(`${assetPath}${file}`);
       directoryListSimple.push(file);
@@ -71,16 +64,14 @@ fs.readdir('./public/img/', (err, files) => {
     }
   }
   if (directoryList.length > 0) {
-  for (let dir of directoryList) {
-    console.log(dir);
+    console.log("building sub-galleries...")
+  for (let dir of tqdm(directoryList)) {
     let dirImagesArray = [];
       app.get(`/${directoryListSimple[directoryList.indexOf(dir)]}`, (req, res) => {
         res.render("index", { directoryListSimple: directoryListSimple, images: dirImagesArray });
       })
     let dirFiles = fs.readdirSync(dir);
-    for (let file of dirFiles) {
-      // console.log(file);
-      console.log(file);
+    for (let file of tqdm(dirFiles)) {
       if (!file.includes('thumb.png')) {
         (async () => {
           const image = await resizeImg(fs.readFileSync(`${dir}/${file}`), {
@@ -108,20 +99,21 @@ fs.readdir('./public/img/', (err, files) => {
 
 })
 
-
-
-
 app.get('/', (req, res) => {
   res.render("index", { directoryListSimple: directoryListSimple, images: imagesArray });
 });
 
-
-
 app.get('/about', (req, res) => {
-  res.render("about", { directoryListSimple: directoryListSimple, images: imagesArray });
+  res.render("about", { directoryListSimple: directoryListSimple });
 });
 
+app.get('/cv', (req, res) => {
+  res.render("cv", { directoryListSimple: directoryListSimple, images: imagesArray });
+});
 
+app.get('/contact', (req, res) => {
+  res.render("contact", { directoryListSimple: directoryListSimple});
+});
 
 let options = {},
   server = http.createServer(options, app);

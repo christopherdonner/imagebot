@@ -6,7 +6,7 @@ function view(that, id) {
         viewer.id = id;
 
     viewer.classList.remove('hidden');
-    viewerImage.innerHTML = `<img src='${that.src}' onclick='shrinkAll()' class='enhanced-image'/>`
+    viewerImage.innerHTML = `<a href='${that.src}'><img src='${that.src}'  class='enhanced-image'/></a>`
 
     let nextButton = viewer.querySelector('#next'),
         prevButton = viewer.querySelector('#last');
