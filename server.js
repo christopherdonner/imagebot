@@ -28,6 +28,11 @@ app.use(express.static('public'));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+  // Initialize log file
+  if (!fs.existsSync('visitors.log')) {
+    fs.writeFileSync('visitors.log', 'Visitors Log\n' + '='.repeat(80) + '\n');
+  }
+
 
 async function blip(file) {
   const { stdout, stderr } = await exec(`py blip.py ./public/img/${file}`);
@@ -64,8 +69,8 @@ console.log("building home page gallery...")
     }
   }
   if (directoryList.length > 0) {
-    console.log("building sub-galleries...")
-  for (let dir of tqdm(directoryList)) {
+    console.log(`building ${directoryList.length} sub-galleries...`)
+  for (let dir of directoryList) {
     let dirImagesArray = [];
       app.get(`/${directoryListSimple[directoryList.indexOf(dir)]}`, (req, res) => {
         res.render("index", { directoryListSimple: directoryListSimple, images: dirImagesArray });
@@ -101,6 +106,10 @@ console.log("building home page gallery...")
 
 app.get('/', (req, res) => {
   res.render("index", { directoryListSimple: directoryListSimple, images: imagesArray });
+  console.log("visitor")
+  let logEntry = `Visitor from ${req.ip} using ${req.headers['user-agent']} at ${new Date().toISOString()}\n`;
+  console.log(req.headers['user-agent'])
+  fs.appendFileSync('visitors.log', logEntry);
 });
 
 app.get('/about', (req, res) => {

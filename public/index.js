@@ -11,41 +11,36 @@ function view(that, id) {
     let nextButton = viewer.querySelector('#next'),
         prevButton = viewer.querySelector('#last');
 
-        let viewerID = id;
-    nextButton.addEventListener('click', function () {
-nextImage();
-
-    });
-    prevButton.addEventListener('click', function () {
-        previous();
-        // let prevImage = document.querySelector(`img[data-id='${parseInt(viewerID) - o}']`),
-        //     prevImageSRC = prevImage.getAttribute('full');
-        // viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
-        // o++;
-    });
+    nextButton.addEventListener('click', function () {nextImage();});
+    prevButton.addEventListener('click', function () {previous();});
+    document.querySelector('body').addEventListener('keydown', function (e) {
+        keyboardhandler(e, that);
+    })
+    viewer.focus();
 }
 
-function nextImage(){
+function nextImage(that){
    let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
         currentID = viewer.id,
-        nextID = parseInt(currentID) + 1;
+        nextID = parseInt(currentID) - 1; // because I'm doing this backwards, has to be reversed ()
     let nextImage = document.querySelector(`img[data-id='${nextID}']`),
         nextImageSRC = nextImage.getAttribute('full');
-    viewerImage.innerHTML = `<img src='${nextImageSRC}'/>`
+    viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
     viewer.id = nextID;
     console.log('next' )
+    viewerImage.parentElement.setAttribute('href', nextImageSRC);
 }
 
 
-function previous(){
+function previous(that){
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
         currentID = viewer.id
-        prevID = parseInt(currentID) - 1;
+        prevID = parseInt(currentID) + 1;
     let prevImage = document.querySelector(`img[data-id='${prevID}']`),
         prevImageSRC = prevImage.getAttribute('full');
-    viewerImage.innerHTML = `<img src='${prevImageSRC}'/>`
+    viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
     viewer.id = prevID;
     console.log('previous' )
 }
@@ -67,4 +62,29 @@ function closeViewer(that) {
     let viewer = document.querySelector('.viewer');
     viewer.classList.add('hidden');
     viewer.querySelector('.image').innerHTML = '';
+    document.querySelector('body').removeEventListener('keydown', keyboardhandler)
+}
+
+function keyboardhandler(e, that) {
+        let viewer = document.querySelector('.viewer'),
+        viewerImage = viewer.querySelector('.image');
+    console.log(e.key);
+    if (e.key === 'Escape') {
+        closeViewer();
+    }
+    if (e.key === 'ArrowRight') {
+        if (viewer.classList.contains('hidden')) {
+            console.log('nextSMall')
+        } else {
+
+            nextImage();
+        }
+    }
+    if (e.key === 'ArrowLeft') {
+        previous();
+    }
+    if(e.key == 'Enter'){
+        console.log('enter')
+        viewerImage.querySelector('a').click();
+    }
 }
