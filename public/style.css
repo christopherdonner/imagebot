@@ -29,12 +29,14 @@ header .socials ul {
   display: flex;
   gap: 2px;
   padding: 2px;
+  margin: 0;
 }
 
 header div.socials ul{
 height: unset;
 
 }
+
 
 header h1 {
   text-align: right;
@@ -47,7 +49,7 @@ header a {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  height: 50px;
+  /* height: 50px; */
   display: block
 }
 
@@ -89,7 +91,7 @@ header aside p {
 
 .viewer {
   width: 95%;
-  max-height: 80%;
+  max-height: 90%;
   overflow: hidden;
   border: 2px solid black;
   height: auto;
@@ -214,6 +216,7 @@ nav {
 
 .name {
   height: 100%;
+  max-height: 50px;
   display: block;
 }
 
