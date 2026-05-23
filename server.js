@@ -1,23 +1,22 @@
-let express = require("express"),
+const express = require("express"),
   app = express(),
   exphbs = require("express-handlebars"),
-  imagesArray = [],
-  resizeImg = require('resize-img');
-
-const http = require('http'),
+  resizeImg = require('resize-img'),
+  geoip = require('geoip-lite'),
+  http = require('http'),
   fs = require('fs'),
-  tqdm = require('tqdm');
-PORT = 80;
-
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+  tqdm = require('tqdm'),
+  util = require('util'),
+  exec = util.promisify(require('child_process').exec),
+  PORT = 80;
 
 let id = 0,
   caption = "",
   directoryList = [],
+  imagesArray = [],
   directoryListSimple = [],
   assetPath = "./public/img/";
-  
+
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -28,10 +27,10 @@ app.use(express.static('public'));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-  // Initialize log file
-  if (!fs.existsSync('visitors.log')) {
-    fs.writeFileSync('visitors.log', 'Visitors Log\n' + '='.repeat(80) + '\n');
-  }
+// Initialize log file
+if (!fs.existsSync('visitors.log')) {
+  fs.writeFileSync('visitors.log', 'Visitors Log\n' + '='.repeat(80) + '\n');
+}
 
 
 async function blip(file) {
@@ -41,7 +40,7 @@ async function blip(file) {
 }
 
 fs.readdir('./public/img/', (err, files) => {
-console.log("building home page gallery...")
+  console.log("building home page gallery...")
   for (let file of tqdm(files)) {
     let isDir = fs.existsSync(`${assetPath}${file}`) && fs.lstatSync(`${assetPath}${file}`).isDirectory();
     if (isDir) {
@@ -70,45 +69,46 @@ console.log("building home page gallery...")
   }
   if (directoryList.length > 0) {
     console.log(`building ${directoryList.length} sub-galleries...`)
-  for (let dir of directoryList) {
-    let dirImagesArray = [];
+    for (let dir of directoryList) {
+      let dirImagesArray = [];
       app.get(`/${directoryListSimple[directoryList.indexOf(dir)]}`, (req, res) => {
         res.render("index", { directoryListSimple: directoryListSimple, images: dirImagesArray });
       })
-    let dirFiles = fs.readdirSync(dir);
-    for (let file of tqdm(dirFiles)) {
-      if (!file.includes('thumb.png')) {
-        (async () => {
-          const image = await resizeImg(fs.readFileSync(`${dir}/${file}`), {
-            width: 128,
-            height: 128
-          });
+      let dirFiles = fs.readdirSync(dir);
+      for (let file of tqdm(dirFiles)) {
+        if (!file.includes('thumb.png')) {
+          (async () => {
+            const image = await resizeImg(fs.readFileSync(`${dir}/${file}`), {
+              width: 128,
+              height: 128
+            });
 
-          dirImagesArray.unshift({
-            name: file.split("_")[0],
-            image: `img/${directoryListSimple[directoryList.indexOf(dir)]}/${file}`,
-            thumb: `img/${directoryListSimple[directoryList.indexOf(dir)]}/${file}.thumb.png`,
-            description: caption.trim(),
-            id: id
-          });
-          id++;
-          fs.writeFileSync(`${dir}/${file}.thumb.png`, image);
-          // fs.writeFileSync(`./public/img/${dir}/${file}.thumb.png`, image);
-        })();
+            dirImagesArray.unshift({
+              name: file.split("_")[0],
+              image: `img/${directoryListSimple[directoryList.indexOf(dir)]}/${file}`,
+              thumb: `img/${directoryListSimple[directoryList.indexOf(dir)]}/${file}.thumb.png`,
+              description: caption.trim(),
+              id: id
+            });
+            id++;
+            fs.writeFileSync(`${dir}/${file}.thumb.png`, image);
+            // fs.writeFileSync(`./public/img/${dir}/${file}.thumb.png`, image);
+          })();
+        }
+
       }
-    
-    }
 
+    }
   }
-}
 
 })
 
 app.get('/', (req, res) => {
   res.render("index", { directoryListSimple: directoryListSimple, images: imagesArray });
   console.log("visitor")
-  let logEntry = `Visitor from ${req.ip} using ${req.headers['user-agent']} at ${new Date().toISOString()}\n`;
+  let logEntry = `Visitor - ${new Date().toISOString()} (tz: ${req.headers && req.headers['timezone'] ? req.headers['timezone'] : ''}) - ${req.ip} - ${req.ip && geoip.lookup(req.ip).city ? geoip.lookup(req.ip).city : ''} ${req.ip ? geoip.lookup(req.ip).country : 'Unknown'} using ${req.headers['user-agent']} \n`;
   console.log(req.headers['user-agent'])
+  req.ip && geoip.lookup(req.ip) && console.log(geoip.lookup(req.ip));
   fs.appendFileSync('visitors.log', logEntry);
 });
 
@@ -121,7 +121,7 @@ app.get('/cv', (req, res) => {
 });
 
 app.get('/contact', (req, res) => {
-  res.render("contact", { directoryListSimple: directoryListSimple});
+  res.render("contact", { directoryListSimple: directoryListSimple });
 });
 
 let options = {},
