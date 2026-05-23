@@ -106,9 +106,9 @@ fs.readdir('./public/img/', (err, files) => {
 app.get('/', (req, res) => {
   res.render("index", { directoryListSimple: directoryListSimple, images: imagesArray });
   console.log("visitor")
-  let logEntry = `Visitor - ${new Date().toISOString()} - ${req.ip} - ${geoip.lookup(req.ip).city} ${geoip.lookup(req.ip).country} using ${req.headers['user-agent']} at \n`;
+  let logEntry = `Visitor - ${new Date().toISOString()} (tz: ${req.headers && req.headers['timezone'] ? req.headers['timezone'] : ''}) - ${req.ip} - ${req.ip && geoip.lookup(req.ip).city ? geoip.lookup(req.ip).city : ''} ${req.ip ? geoip.lookup(req.ip).country : 'Unknown'} using ${req.headers['user-agent']} \n`;
   console.log(req.headers['user-agent'])
-  console.log(geoip.lookup(req.ip))
+  req.ip && geoip.lookup(req.ip) && console.log(geoip.lookup(req.ip));
   fs.appendFileSync('visitors.log', logEntry);
 });
 
