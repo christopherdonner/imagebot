@@ -24,7 +24,7 @@ app.use(express.json());
 // set public directory for assetts
 app.use(express.static('public'));
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.engine("handlebars", exphbs({ defaultLayout: "main", partialsDir: __dirname + "/views/" }));
 app.set("view engine", "handlebars");
 
 // Initialize log file
