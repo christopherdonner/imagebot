@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Christopher's Gallery">
-    <meta property="og:description" content="Gallery of chalk murals by Christopher Donner">
+    <meta property="og:title" content="christopherdonner.ca">
+    <meta property="og:description" content="Gallery of chalk drawings by Christopher Donner">
     <meta property="og:content:image" content="https://christopherdonner.com/">
 <script src="/index.js"></script>
 
@@ -15,10 +15,10 @@
 <body>
     <div class="overlay" onclick="shrinkAll()"></div>
         <div class="viewer hidden">
-        <div id="last"><</div>
+        <div id="last" onclick="previous()" onkeydown="keyboardhandler(event)"><</div>
             <div class="image"></div>
-        <div id="next">></div>
-        <div id="close" onclick="closeViewer(this)">X</div>
+        <div id="next" onclick="nextImage()" onkeydown="keyboardhandler(event)">></div>
+        <div id="close" onclick="closeViewer()">X</div>
     </div>
     {{> header}}
     {{{body}}}

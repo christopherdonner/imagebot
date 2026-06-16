@@ -16,3 +16,9 @@ mkdir img
 Place images in the ./public/img/ directory
 Run: npm start
 browse to: localhost on the port specified 
+
+Environment Variables:
+- `VISITORS_LOG` — filename for visitor log output (default: `visitors.log`)
+- `SKIP_IPS` — comma-separated list of IP addresses to exclude from visitor logging
+
+Create a local `.env` file from `.env.example` before starting the server.

@@ -1,10 +1,20 @@
 
 {{#each images}}
 <article tabindex="0" onkeypress="if(event.key === 'Enter'){view(this.querySelector('img'), '{{this.id}}');}">
-  <a><img id="{{this.id}}" src="{{this.thumb}}" full="{{this.image}}" data-id="{{this.id}}" title="{{this.name}}"
-      height=80 onmouseover="enhance(this)" onclick="view(this, '{{this.id}}')"></a>
-  <div class="reflection" style="background-image: url('{{this.thumb}}')"></div>
+  <a>
+    <img
+      id="{{this.id}}"
+      src="{{this.thumb}}"
+      full="{{this.image}}"
+      data-id="{{this.id}}"
+      alt="{{this.name}}"
+      title="{{this.description}}"
+      loading="lazy"
+      onmouseover="enhance(this)"
+      onclick="view(this, '{{this.id}}')"
+    />
   </a>
+  <div class="reflection" style="background-image: url('{{this.thumb}}')"></div>
 </article>
 {{/each}}
 <footer>

@@ -1,9 +1,10 @@
+// client side javascript
 
 function view(that, id) {
 
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image');
-        viewer.id = id;
+    viewer.id = id;
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<a href='${that.src}'><img src='${that.src}'  class='enhanced-image'/></a>`
@@ -11,16 +12,12 @@ function view(that, id) {
     let nextButton = viewer.querySelector('#next'),
         prevButton = viewer.querySelector('#last');
 
-    nextButton.addEventListener('click', function () {nextImage();});
-    prevButton.addEventListener('click', function () {previous();});
-    document.querySelector('body').addEventListener('keydown', function (e) {
-        keyboardhandler(e, that);
-    })
+     document.querySelector('body').addEventListener('keydown', function (e) { keyboardhandler(e) })
     viewer.focus();
 }
 
-function nextImage(that){
-   let viewer = document.querySelector('.viewer'),
+function nextImage() {
+    let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
         currentID = viewer.id,
         nextID = parseInt(currentID) - 1; // because I'm doing this backwards, has to be reversed ()
@@ -28,21 +25,21 @@ function nextImage(that){
         nextImageSRC = nextImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
     viewer.id = nextID;
-    console.log('next' )
+    console.log('next')
     viewerImage.parentElement.setAttribute('href', nextImageSRC);
 }
 
 
-function previous(that){
+function previous() {
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
         currentID = viewer.id
-        prevID = parseInt(currentID) + 1;
+    prevID = parseInt(currentID) + 1;
     let prevImage = document.querySelector(`img[data-id='${prevID}']`),
         prevImageSRC = prevImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
     viewer.id = prevID;
-    console.log('previous' )
+    console.log('previous')
 }
 
 
@@ -62,11 +59,11 @@ function closeViewer(that) {
     let viewer = document.querySelector('.viewer');
     viewer.classList.add('hidden');
     viewer.querySelector('.image').innerHTML = '';
-    document.querySelector('body').removeEventListener('keydown', keyboardhandler)
+    document.querySelector('body').removeEventListener('keydown', this)
 }
 
 function keyboardhandler(e, that) {
-        let viewer = document.querySelector('.viewer'),
+    let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image');
     console.log(e.key);
     if (e.key === 'Escape') {
@@ -83,7 +80,7 @@ function keyboardhandler(e, that) {
     if (e.key === 'ArrowLeft') {
         previous();
     }
-    if(e.key == 'Enter'){
+    if (e.key == 'Enter') {
         console.log('enter')
         viewerImage.querySelector('a').click();
     }

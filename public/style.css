@@ -1,11 +1,9 @@
 body {
   margin: 1px;
-  /* padding: 14px; */
   background-color: #eee;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-wrap: wrap;
-  /* min-width: 400px; */
 }
 
 footer {
@@ -14,7 +12,10 @@ footer {
   font-size: 10px;
 }
 
-header, footer {
+
+
+header,
+footer {
   width: 100%;
   text-align: center;
   font-size: 12x;
@@ -32,8 +33,8 @@ header .socials ul {
   margin: 0;
 }
 
-header div.socials ul{
-height: unset;
+header div.socials ul {
+  height: unset;
 
 }
 
@@ -41,7 +42,7 @@ height: unset;
 header h1 {
   text-align: right;
   margin: 0;
-  padding: 0;  
+  padding: 0;
   font-weight: bolder;
 }
 
@@ -49,7 +50,6 @@ header a {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  /* height: 50px; */
   display: block
 }
 
@@ -64,14 +64,22 @@ header aside {
   float: right;
   top: 10px;
   font-size: 12px;
-  color:grey
+  color: grey
 }
 
 header aside p {
   margin: 0;
 }
 
-#next, #last, #close {
+header aside span {
+  color: black;
+}
+
+nav li:nth-child(4) {}
+
+#next,
+#last,
+#close {
   font-size: 48px;
   font-weight: bold;
   cursor: pointer;
@@ -119,23 +127,24 @@ header aside p {
   max-width: 90%;
 }
 
-.viewer .last, .viewer .next {
+.viewer .last,
+.viewer .next {
   z-index: 10001;
-} 
+}
 
 article {
-  height: 124px;
+  height: 256px;
   display: inline;
-  margin: 20px 2px;
+  margin: 40px 2px;
 }
 
 article a {
-  height: 128px;
+  height: 256px;
 }
 
 img {
-  height: 128px;
-  width: 128px;
+  height: 256px;
+  width: 256px;
   opacity: 0.9;
   transform: scale(1);
   transition: transform, 0.1s;
@@ -163,12 +172,12 @@ img {
 
 .reflection {
   opacity: 0.7;
-  height: 128px;
-  width: 128px;
+  height: 256px;
+  width: 256px;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  top: -135px;
+  top: -262px;
 }
 
 article:hover img {
@@ -180,16 +189,13 @@ article:hover img {
   border-bottom: 0;
   --p: 10%;
   /* control the shape (can be percentage) */
-  aspect-ratio: 3/2;
   clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
-
   background: #542437;
-  border-color: transparent
 }
 
 article:hover .reflection {
-  transform: scaleY(0.3);
-  top: -84px;
+  transform: scaleY(0.2);
+  top: -144px;
   box-shadow: 0px -50px 80px 40px rgba(0, 0, 0, 0.5);
   -webkit-box-reflect: below 0 linear-gradient(transparent, white);
 }
@@ -206,11 +212,28 @@ img.big {
 
 nav {
   width: 100%;
-  height: 30px;
   display: flex;
   justify-content: left;
-  align-items: left;
-  float: left;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: rgba(238, 238, 238, 0.96);
+  z-index: 1000;
+  padding: 8px 0;
+  backdrop-filter: blur(4px);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 2px;
+  margin: 0;
+}
+
+nav ul li {
+  margin: 0;
 }
 
 .name {
@@ -219,7 +242,7 @@ nav {
   display: block;
 }
 
-.name:hover .name h1{
+.name:hover .name h1 {
   color: black;
   transform: scale(1.1);
 }
@@ -236,10 +259,10 @@ nav ul {
 nav ul li a {
   font-size: 12px;
   text-decoration: none;
-  color:rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.5);
   height: 12px;
-  border-style: inset;
-  border-radius: 12px;
+  /* border-style: inset; */
+  border-radius: 8px;
   padding: 2px;
   background-color: white;
 }
@@ -251,50 +274,141 @@ li a:hover {
   transition: transform, 0.1s;
 }
 
-bio, contact {
+bio,
+cv {
   width: 100%;
   padding: 10px;
   font-size: 14px;
   align-items: center;
-  margin-left: 20%;
+  margin: 0 30% 0 20%;
 }
 
 header h1 span {
   color: darkgrey;
 }
 
-@media (width <=800px) {
-  body {
-    /* background-color: grey; */
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 2px;
+@media (width <=1600px) {
+  img {
+    height: 128px;
+    width: 128px;
+    opacity: 0.9;
+    transform: scale(1);
+    transition: transform, 0.1s;
+    z-index: 1;
+    position: relative;
+    border-radius: 2px;
     margin: 2px;
-  }
-  
-
-  img, .reflection {
-    height: 85px;
-    width: 85px;
-    margin: 1px;
-    padding: 0px;
+    cursor: pointer;
   }
 
-  header h1:nth-of-type(2) {
-  top: -30px;
-  left: 2px;
-  position: relative;
-}
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: darkgrey;
+    opacity: 0.8;
+    visibility: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  .overlay.visible {
+    visibility: visible;
+  }
 
   .reflection {
-    top: -90px;
+    opacity: 0.7;
+    height: 128px;
+    width: 132px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    top: -135px;
+  }
+
+  article:hover img {
+    opacity: 1;
+    transform: scale(1.3);
+    z-index: 9001;
+    top: -10px;
+    border-color: transparent;
+    border-bottom: 0;
+    --p: 10%;
+    /* control the shape (can be percentage) */
+    aspect-ratio: 3/2;
+    clip-path: polygon(var(--p) 100%, calc(100% - var(--p)) 100%, 100% 0, 0 0);
+
+    background: #542437;
+    border-color: transparent
+  }
+
+  article:hover .reflection {
+    transform: scaleY(0.4);
+    top: -86px;
+    box-shadow: 0px -50px 80px 40px rgba(0, 0, 0, 0.5);
+    -webkit-box-reflect: below 0 linear-gradient(transparent, white);
+  }
+
+  img.big {
+    width: unset;
+    transform: scale(7);
+    transition: transform, width, 1s;
+    z-index: 9000;
+    opacity: 1;
+    box-shadow: 2px 4px 8px 4px black;
+    transition: transform, width, 0.1s;
   }
 
   article {
-    height: 85px;
-    margin: 2px 2px;
+    height: 128px;
+    display: inline;
+    margin: 40px 2px;
+
   }
 
-  /* img.big {
+  @media (width <=800px) {
+    body {
+      /* background-color: grey; */
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 2px;
+      margin: 2px;
+    }
+
+    bio,
+    cv {
+
+      margin: 0 10%;
+    }
+
+    nav ul {
+      gap: 6px;
+      padding: 2px;
+    }
+
+    img,
+    .reflection {
+      height: 85px;
+      width: 85px;
+      margin: 1px;
+      padding: 0px;
+    }
+
+    header h1:nth-of-type(2) {
+      top: -30px;
+      left: 2px;
+      position: relative;
+    }
+
+    .reflection {
+      top: -90px;
+    }
+
+    article {
+      height: 85px;
+      margin: 2px 2px;
+    }
+
+    /* img.big {
     width: unset;
     transform: scale(4);
     transition: transform, width, 0.5s;
@@ -303,19 +417,21 @@ header h1 span {
     box-shadow: 2px 4px 8px 4px black;
     transition: transform, width, 0.1s;
   } */
-}
-
-@media (width <=400px) {
-  nav {
-    height: 40px;
   }
 
-   header h1:nth-of-type(2) {
-  top: -33px;
-  left: 2px;
-  position: relative;
-}
-header aside {
-  top: 15px;
-}
+  @media (width <=400px) {
+    nav {
+      height: 40px;
+    }
+
+    header h1:nth-of-type(2) {
+      top: -33px;
+      left: 2px;
+      position: relative;
+    }
+
+    header .aside {
+      top: 15px;
+    }
+  }
 }
