@@ -1,9 +1,11 @@
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
 import sys
+
+model_name = "Salesforce/blip-image-captioning-large"
 # Initialize the processor and model from Hugging Face
-processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+processor = BlipProcessor.from_pretrained(model_name)
+model = BlipForConditionalGeneration.from_pretrained(model_name)
 file = sys.argv[1]
 # Load an image
 image = Image.open(file)
@@ -13,4 +15,4 @@ inputs = processor(image, return_tensors="pt")
 outputs = model.generate(**inputs)
 caption = processor.decode(outputs[0],skip_special_tokens=True)
  
-print("Generated Caption:", caption)
+print(caption)
