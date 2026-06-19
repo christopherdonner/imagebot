@@ -35,7 +35,6 @@ initializeVisitorLog();
 
 async function blip(file) {
   const { stdout, stderr } = await exec(`py blip.py ./public/img/${file}`);
-  console.log(file + ':' + stdout);
   return stdout;
 }
 
@@ -69,7 +68,7 @@ async function buildGallery() {
       }
 
       console.log("building home page gallery...");
-      
+
       for (let file of tqdm(files)) {
         let isDir = fs.existsSync(`${assetPath}${file}`) && fs.lstatSync(`${assetPath}${file}`).isDirectory();
         if (isDir) {
@@ -82,10 +81,10 @@ async function buildGallery() {
               width: 256,
               height: 256
             });
-            
+
             // Call blip for auto-captioning
             const caption = await blip(file);
-            
+
             imagesArray.unshift({
               name: file,
               image: `img/${file}`,
@@ -109,7 +108,7 @@ async function buildGallery() {
           app.get(`/${directoryListSimple[directoryList.indexOf(dir)]}`, (req, res) => {
             res.render("index", { directoryListSimple: directoryListSimple, images: dirImagesArray });
           });
-          
+
           let dirFiles = fs.readdirSync(dir);
           for (let file of tqdm(dirFiles)) {
             if (!file.includes('thumb.png')) {
@@ -138,7 +137,7 @@ async function buildGallery() {
           }
         }
       }
-      
+
       resolve();
     });
   });
@@ -149,7 +148,6 @@ buildGallery().catch(err => console.error('Gallery build failed:', err));
 app.get('/', (req, res) => {
   res.render("index", { directoryListSimple: directoryListSimple, images: imagesArray });
   const logEntry = makeVisitorLogEntry(req);
-  console.log(logEntry.trim());
   appendVisitorLog(logEntry);
 });
 

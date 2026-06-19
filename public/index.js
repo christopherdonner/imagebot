@@ -4,26 +4,28 @@ function view(that, id) {
 
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image');
-    viewer.id = id;
+    viewer.id = id,
+    caption = that.getAttribute('title');
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<a href='${that.src}'><img src='${that.src}'  class='enhanced-image'/></a>`
+    document.querySelector('#caption').textContent = caption;
 
     let nextButton = viewer.querySelector('#next'),
         prevButton = viewer.querySelector('#last');
-
-     document.querySelector('body').addEventListener('keydown', function (e) { keyboardhandler(e) })
     viewer.focus();
 }
 
 function nextImage() {
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
+        captionElement = document.querySelector('#caption'),
         currentID = viewer.id,
         nextID = parseInt(currentID) - 1; // because I'm doing this backwards, has to be reversed ()
     let nextImage = document.querySelector(`img[data-id='${nextID}']`),
         nextImageSRC = nextImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
+    captionElement.textContent = nextImage.getAttribute('title') || '';
     viewer.id = nextID;
     console.log('next')
     viewerImage.parentElement.setAttribute('href', nextImageSRC);
@@ -33,11 +35,13 @@ function nextImage() {
 function previous() {
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
+        captionElement = document.querySelector('#caption'),
         currentID = viewer.id
     prevID = parseInt(currentID) + 1;
     let prevImage = document.querySelector(`img[data-id='${prevID}']`),
         prevImageSRC = prevImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
+    captionElement.textContent = prevImage.getAttribute('title') || '';
     viewer.id = prevID;
     console.log('previous')
 }
@@ -59,7 +63,6 @@ function closeViewer(that) {
     let viewer = document.querySelector('.viewer');
     viewer.classList.add('hidden');
     viewer.querySelector('.image').innerHTML = '';
-    document.querySelector('body').removeEventListener('keydown', this)
 }
 
 function keyboardhandler(e, that) {
