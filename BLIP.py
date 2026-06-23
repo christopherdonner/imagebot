@@ -37,10 +37,7 @@ for model_name in model_names:
     caption = processor.decode(outputs[0],skip_special_tokens=True)
     captions.append(caption)
 
-print(captions[0])
-print(captions[1])
-
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7, openai_api_key=api_key)
+llm = ChatOpenAI(model="gpt-4.1-nano", temperature=0.7, openai_api_key=api_key)
 
 litellm.ssl_verify = False
 
@@ -48,16 +45,15 @@ class CaptionSelection(BaseModel):
     selected_caption: str = Field(..., description="The single caption chosen as best")
 
 caption_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful assistant that compares two image captions and selects the best one."),
+    ("system", "You are a helpful assistant that compares two image captions and selects the best one in the context of the image."),
     (
         "user",
         "Image file: {image_file}\n"
         "Caption A: {caption_a}\n"
         "Caption B: {caption_b}\n"
-        # "Create a new caption that is an amalgamation of the two captions, but do not alter the original captions. "
         "Choose the more appropriate caption for the image. "
         "Choose exactly one caption from the two options. Return only the selected caption as selected_caption in JSON. "
-        "Do not alter, combine, or paraphrase the caption text. Base your decision on which caption is more appropriate for the image."
+        "Do not alter, combine, or paraphrase the caption text. Base your decision on which caption is more appropriate for the image. Do not prefix with 'Caption A' or 'Caption B'. Return only the caption text."
     )
 ])
 
@@ -68,5 +64,9 @@ result = critic_pipe.invoke({
     "caption_b": captions[1]
 })
 
-print("Selected caption:", result.selected_caption)
+result.selected_caption
+
+caption = re.sub(r"arafted|arafed|araffe", "crafted", result.selected_caption)
+
+print(caption)
 
