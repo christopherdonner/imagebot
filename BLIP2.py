@@ -12,8 +12,14 @@ from PIL import Image
 import litellm
 import sys
 import re
+import os
+from dotenv import load_dotenv
 
-api_key = "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"
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("OPENAI_API_KEY is not set. Add it to .env or environment variables.")
+
 captions = []
 model_names = ["Salesforce/blip-image-captioning-base", "Salesforce/blip-image-captioning-large"]
 
