@@ -12,12 +12,12 @@
     <link type="text/css" rel="stylesheet" href="/style.css" /> 
     <title>Christopher's Gallery!</title>
 </head>
-<body>
+<body onkeydown="keyboardhandler(event)">
     <div class="overlay" onclick="shrinkAll()"></div>
         <div class="viewer hidden">
-        <div id="last" onclick="previous()" onkeydown="keyboardhandler(event)"><</div>
+        <div id="last" onclick="previous()" ><</div>
             <div class="image"></div>
-        <div id="next" onclick="nextImage()" onkeydown="keyboardhandler(event)">></div>
+        <div id="next" onclick="nextImage()">></div>
         <div id="close" onclick="closeViewer()">X</div>
     </div>
     {{> header}}

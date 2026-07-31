@@ -9,7 +9,6 @@ function view(that, id) {
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<a href='${that.src}'><img src='${that.src}'  class='enhanced-image'/></a>`
-    document.querySelector('#caption').textContent = caption;
 
     let nextButton = viewer.querySelector('#next'),
         prevButton = viewer.querySelector('#last');
@@ -25,7 +24,6 @@ function nextImage() {
     let nextImage = document.querySelector(`img[data-id='${nextID}']`),
         nextImageSRC = nextImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
-    captionElement.textContent = nextImage.getAttribute('title') || '';
     viewer.id = nextID;
     console.log('next')
     viewerImage.parentElement.setAttribute('href', nextImageSRC);
@@ -41,7 +39,6 @@ function previous() {
     let prevImage = document.querySelector(`img[data-id='${prevID}']`),
         prevImageSRC = prevImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
-    captionElement.textContent = prevImage.getAttribute('title') || '';
     viewer.id = prevID;
     console.log('previous')
 }
