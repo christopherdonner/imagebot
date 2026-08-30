@@ -21,8 +21,8 @@ function nextImage() {
         viewerImage = viewer.querySelector('.image'),
         captionElement = document.querySelector('#caption'),
         currentID = viewer.id,
-        nextID = parseInt(currentID) - 1; // because I'm doing this backwards, has to be reversed ()
-    let nextImage = document.querySelector(`img[data-id='${nextID}']`),
+        nextID = parseInt(currentID) - 1, // because I'm doing this backwards, has to be reversed (),
+        nextImage = document.querySelector(`img[data-id='${nextID}']`),
         nextImageSRC = nextImage.getAttribute('full');
     viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
     captionElement.textContent = nextImage.getAttribute('title') || '';
@@ -36,10 +36,11 @@ function previous() {
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image'),
         captionElement = document.querySelector('#caption'),
-        currentID = viewer.id
-    prevID = parseInt(currentID) + 1;
-    let prevImage = document.querySelector(`img[data-id='${prevID}']`),
+        currentID = viewer.id,
+        prevID = parseInt(currentID) + 1,
+        prevImage = document.querySelector(`img[data-id='${prevID}']`),
         prevImageSRC = prevImage.getAttribute('full');
+
     viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
     captionElement.textContent = prevImage.getAttribute('title') || '';
     viewer.id = prevID;

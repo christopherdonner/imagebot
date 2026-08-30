@@ -15,10 +15,14 @@
 <body>
     <div class="overlay" onclick="shrinkAll()"></div>
         <div class="viewer hidden">
-        <div id="last" onclick="previous()" onkeydown="keyboardhandler(event)"><</div>
-            <div class="image"></div>
-        <div id="next" onclick="nextImage()" onkeydown="keyboardhandler(event)">></div>
-        <div id="close" onclick="closeViewer()">X</div>
+            <div id="close" onclick="closeViewer()">X</div>
+
+        <div id="controls">
+            <span id="last" onclick="previous()" onkeydown="keyboardhandler(event)"><</span>
+        <span class="image"></span>
+            <span id="next" onclick="nextImage()" onkeydown="keyboardhandler(event)">></span>
+        </div>
+        <div id="caption"></div>
     </div>
     {{> header}}
     {{{body}}}

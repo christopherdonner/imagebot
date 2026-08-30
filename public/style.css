@@ -88,6 +88,13 @@ nav li:nth-child(4) {}
   padding: 10px;
 }
 
+#next,
+#last {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #close {
   position: absolute;
   top: 10px;
@@ -113,6 +120,7 @@ nav li:nth-child(4) {}
   display: flex;
   justify-content: space-between;
   align-items: center;
+  display: block;
 }
 
 .viewer-content {
@@ -146,10 +154,14 @@ nav li:nth-child(4) {}
   max-height: 65vh;
 }
 
-.viewer .last,
-.viewer .next {
+.viewer #last,
+.viewer #next {
   z-index: 10001;
 }
+#next{
+  float: right;
+}
+
 
 article {
   height: 256px;
