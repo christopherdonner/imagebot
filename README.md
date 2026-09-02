@@ -6,7 +6,7 @@ create a subfolder of /public/ named /img/ and populate it with png or jpg files
 sub-folers of /img/ will generate elements in the header using the folder names with routes to pages populated with the contents of said folder.
 
 takes a directory listing of /public/img, creates thumbnail files, and uses the resulting array of filenames to build a web page of img tags pointing to the files in the /public/img directory.
-On hover, the SRC property for the IMG tag is set to the original, high quality image.
+On hover, the SRC property for the IMG tag is set to the original, high quality image. Each image is passed to a variety of local BLIP transformers, after which, a sub-agent evaluates the captions against the image and selects the best one. 
 
 Instructions:
 Clone repo
