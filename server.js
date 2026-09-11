@@ -34,7 +34,7 @@ app.set("view engine", "handlebars");
 initializeVisitorLog();
 
 async function blip(file) {
-  const { stdout, stderr } = await exec(`py blip.py ./public/img/${file}`);
+  const { stdout, stderr } = await exec(`py blip.py ./public/img/"${file}"`);
   return stdout;
 }
 
@@ -85,7 +85,7 @@ async function buildGallery() {
             // Call blip for auto-captioning
             const caption = await blip(file);
 
-            imagesArray.unshift({
+            imagesArray.push({
               name: file,
               image: `img/${file}`,
               thumb: `img/${file}.thumb.png`,
