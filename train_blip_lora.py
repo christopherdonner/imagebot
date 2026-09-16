@@ -6,7 +6,7 @@ from pathlib import Path
 
 import torch
 from PIL import Image
-from peft import LoraConfig, TaskType, get_peft_model
+from peft import LoraConfig, get_peft_model
 from torch.utils.data import Dataset
 from tqdm import tqdm
 from transformers import (
@@ -75,7 +75,6 @@ def main() -> None:
     processor = BlipProcessor.from_pretrained(args.model)
     model = BlipForConditionalGeneration.from_pretrained(args.model)
     lora_config = LoraConfig(
-        task_type=TaskType.SEQ_2_SEQ_LM,
         r=8,
         lora_alpha=16,
         lora_dropout=0.05,
@@ -106,6 +105,7 @@ def main() -> None:
         fp16=torch.cuda.is_available() and not use_bf16,
         bf16=use_bf16,
         remove_unused_columns=False,
+        dataloader_pin_memory=torch.cuda.is_available(),
         disable_tqdm=False,
         report_to="none",
     )
