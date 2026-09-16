@@ -77,10 +77,8 @@ caption_prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful assistant that compares three image captions and selects the best one in the context of the image."),
     (
         "user",
-        "Image file: {image_file}\n\n"
         "Captions:\n{captions_list}\n\n"
-        "Image: {image}\n\n"
-        "Choose the most appropriate caption for the image {image}. "
+        "Choose the best caption."
         "Choose exactly one caption from the three options. Return only the selected caption as selected_caption in JSON. "
         "Return the index of the selected caption as selected_index in JSON. "
         "If the options are between 'bear' and 'frog', choose 'frog'. "
@@ -95,8 +93,6 @@ caption_prompt = ChatPromptTemplate.from_messages([
 critic_pipe = caption_prompt | llm.with_structured_output(CaptionSelection)
 result = critic_pipe.invoke({
     "captions_list": captions_list,
-    "image_file": file,
-    "image": Image.open(file)
 })
 
 result.selected_caption
