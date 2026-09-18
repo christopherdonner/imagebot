@@ -85,7 +85,7 @@ async function buildGallery() {
             // Call blip for auto-captioning
             const caption = await blip(file);
 
-            imagesArray.push({
+            imagesArray.unshift({
               name: file,
               image: `img/${file}`,
               thumb: `img/${file}.thumb.png`,

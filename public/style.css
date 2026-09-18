@@ -123,6 +123,7 @@ nav li:nth-child(4) {}
   gap: 12px;
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 #caption {
@@ -130,6 +131,7 @@ nav li:nth-child(4) {}
   max-width: 90%;
   white-space: normal;
   word-break: break-word;
+  margin-top: 0;
 }
 
 .viewer.hidden {
