@@ -3,15 +3,15 @@
 function view(that, id) {
 
     let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image');
-    viewer.id = id,
-    caption = that.getAttribute('title');
+        viewerImage = viewer.querySelector('.image'),
+        captionElement = document.querySelector('#caption'),
+        caption = that.getAttribute('title');
+        viewer.id = id,
 
     viewer.classList.remove('hidden');
     viewerImage.innerHTML = `<a href='${that.src}'><img src='${that.src}'  class='enhanced-image'/></a>`
 
-    let nextButton = viewer.querySelector('#next'),
-        prevButton = viewer.querySelector('#last');
+    captionElement.innerHTML = caption;
     viewer.focus();
 }
 
@@ -20,13 +20,14 @@ function nextImage() {
         viewerImage = viewer.querySelector('.image'),
         captionElement = document.querySelector('#caption'),
         currentID = viewer.id,
-        nextID = parseInt(currentID) - 1; // because I'm doing this backwards, has to be reversed ()
-    let nextImage = document.querySelector(`img[data-id='${nextID}']`),
-        nextImageSRC = nextImage.getAttribute('full');
+        nextID = parseInt(currentID) + 1, // because I'm doing this backwards, has to be reversed ()
+        nextImage = document.querySelector(`img[data-id='${nextID}']`),
+        nextImageSRC = nextImage.getAttribute('full'),
+        caption = nextImage.getAttribute('title');
     viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
     viewer.id = nextID;
-    console.log('next')
     viewerImage.parentElement.setAttribute('href', nextImageSRC);
+    captionElement.innerHTML = caption;
 }
 
 
@@ -35,17 +36,18 @@ function previous() {
         viewerImage = viewer.querySelector('.image'),
         captionElement = document.querySelector('#caption'),
         currentID = viewer.id
-    prevID = parseInt(currentID) + 1;
-    let prevImage = document.querySelector(`img[data-id='${prevID}']`),
-        prevImageSRC = prevImage.getAttribute('full');
+        prevID = parseInt(currentID) - 1,
+        prevImage = document.querySelector(`img[data-id='${prevID}']`),
+        prevImageSRC = prevImage.getAttribute('full'),
+        caption = prevImage.getAttribute('title');
+
     viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
     viewer.id = prevID;
-    console.log('previous')
+    captionElement.innerHTML = caption;
 }
 
 
 function enhance(that) {
-    console.log('ehnahce')
     let key = that.classList,
         newSRC;
     let firstHalfSRC = that.src.split('.').splice(0, that.src.split('.').length - 3);
