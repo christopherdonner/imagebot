@@ -1,49 +1,45 @@
 // client side javascript
 
 function view(that, id) {
+    showViewerImage(that, id);
+    document.querySelector('.viewer').classList.remove('hidden');
+    document.querySelector('.viewer').focus();
+}
 
-    let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image'),
-        captionElement = document.querySelector('#caption'),
-        caption = that.getAttribute('title');
-        viewer.id = id,
+function showViewerImage(sourceImage, id) {
+    const viewer = document.querySelector('.viewer');
+    const viewerImage = viewer.querySelector('.image');
+    const captionElement = document.querySelector('#caption');
+    const artworkPath = (sourceImage.getAttribute('full') || sourceImage.getAttribute('src')).replace(/^\/+/, '');
+    const artworkUrl = `/${artworkPath.split('/').map(encodeURIComponent).join('/')}`;
+    const link = document.createElement('a');
+    const image = document.createElement('img');
 
-    viewer.classList.remove('hidden');
-    viewerImage.innerHTML = `<a href='${that.src}'><img src='${that.src}'  class='enhanced-image'/></a>`
+    link.href = artworkUrl;
+    image.src = artworkUrl;
+    image.alt = sourceImage.alt || 'Drawing';
+    image.className = 'enhanced-image';
+    link.appendChild(image);
+    viewerImage.replaceChildren(link);
+    captionElement.textContent = sourceImage.getAttribute('title') || '';
+    viewer.dataset.artworkPath = artworkPath;
+    viewer.dataset.artworkName = sourceImage.alt || 'Drawing';
+    viewer.id = id;
 
-    captionElement.innerHTML = caption;
-    viewer.focus();
+    if (typeof updateViewerPrice === 'function') updateViewerPrice();
 }
 
 function nextImage() {
-    let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image'),
-        captionElement = document.querySelector('#caption'),
-        currentID = viewer.id,
-        nextID = parseInt(currentID) + 1, // because I'm doing this backwards, has to be reversed ()
-        nextImage = document.querySelector(`img[data-id='${nextID}']`),
-        nextImageSRC = nextImage.getAttribute('full'),
-        caption = nextImage.getAttribute('title');
-    viewerImage.innerHTML = `<a href='${nextImageSRC}'><img src='${nextImageSRC}'/></a>`
-    viewer.id = nextID;
-    viewerImage.parentElement.setAttribute('href', nextImageSRC);
-    captionElement.innerHTML = caption;
+    const nextID = parseInt(document.querySelector('.viewer').id, 10) + 1;
+    const nextArtwork = document.querySelector(`img[data-id='${nextID}']`);
+    if (nextArtwork) showViewerImage(nextArtwork, nextID);
 }
 
 
 function previous() {
-    let viewer = document.querySelector('.viewer'),
-        viewerImage = viewer.querySelector('.image'),
-        captionElement = document.querySelector('#caption'),
-        currentID = viewer.id
-        prevID = parseInt(currentID) - 1,
-        prevImage = document.querySelector(`img[data-id='${prevID}']`),
-        prevImageSRC = prevImage.getAttribute('full'),
-        caption = prevImage.getAttribute('title');
-
-    viewerImage.innerHTML = `<a href='${prevImageSRC}'><img src='${prevImageSRC}'/></a>`
-    viewer.id = prevID;
-    captionElement.innerHTML = caption;
+    const previousID = parseInt(document.querySelector('.viewer').id, 10) - 1;
+    const previousArtwork = document.querySelector(`img[data-id='${previousID}']`);
+    if (previousArtwork) showViewerImage(previousArtwork, previousID);
 }
 
 
@@ -67,23 +63,16 @@ function closeViewer(that) {
 function keyboardhandler(e, that) {
     let viewer = document.querySelector('.viewer'),
         viewerImage = viewer.querySelector('.image');
-    console.log(e.key);
     if (e.key === 'Escape') {
         closeViewer();
     }
     if (e.key === 'ArrowRight') {
-        if (viewer.classList.contains('hidden')) {
-            console.log('nextSMall')
-        } else {
-
-            nextImage();
-        }
+        if (!viewer.classList.contains('hidden')) nextImage();
     }
-    if (e.key === 'ArrowLeft') {
+    if (e.key === 'ArrowLeft' && !viewer.classList.contains('hidden')) {
         previous();
     }
-    if (e.key == 'Enter') {
-        console.log('enter')
-        viewerImage.querySelector('a').click();
+    if (e.key === 'Enter' && e.target === document.body) {
+        viewerImage.querySelector('a')?.click();
     }
 }
