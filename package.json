@@ -4,17 +4,19 @@
   "description": "art gallery/css sandbox/website builder",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "start": "node server.js"
   },
   "keywords": [],
   "author": "Christopher Donner",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^13.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^3.0.2",
     "geoip-lite": "^1.4.10",
+    "nodemailer": "^10.0.10",
     "resize-img": "^2.0.0",
     "tqdm": "^2.0.3"
   }

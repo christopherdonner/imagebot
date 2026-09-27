@@ -1,0 +1,48 @@
+<main class="commerce-page" id="shopping-cart"
+  data-print4x6="{{commerce.print4x6}}"
+  data-print8x10="{{commerce.print8x10}}"
+  data-tshirt="{{commerce.tshirt}}"
+  data-print-shipping="{{commerce.printShipping}}"
+  data-tshirt-shipping="{{commerce.tshirtShipping}}">
+  <div class="commerce-heading">
+    <p class="commerce-kicker">THE DRAWING SHOP</p>
+    <h2>Your cart</h2>
+    <p>Prints and T-shirts are made to order and shipped from Waterloo, Ontario.</p>
+  </div>
+
+  {{#if orderError}}
+  <p class="form-error" role="alert">{{orderError}}</p>
+  {{/if}}
+
+  <div id="cart-empty" class="cart-empty" role="status">Your cart is empty. Open a drawing and choose a print or T-shirt to begin.</div>
+  <div id="cart-lines" aria-live="polite"></div>
+
+  <section id="cart-checkout" class="cart-checkout" hidden>
+    <div class="cart-summary" aria-live="polite">
+      <p><span>Subtotal</span><strong id="cart-subtotal"></strong></p>
+      <p><span>Shipping</span><strong id="cart-shipping"></strong></p>
+      <p class="cart-total"><span>Total</span><strong id="cart-total"></strong></p>
+      <p class="payment-note">E-transfer only. Payment instructions and your order reference appear after checkout.</p>
+      {{#if commerce.paymentEmail}}
+      <p class="payment-note">E-transfer recipient: <strong>{{commerce.paymentEmail}}</strong></p>
+      {{/if}}
+    </div>
+
+    <form class="checkout-form" action="/orders" method="post" id="checkout-form">
+      <h3>Shipping details</h3>
+      <input type="hidden" name="items" id="checkout-items">
+      <label>Full name<input name="customerName" autocomplete="name" maxlength="100" required value="{{formData.customerName}}"></label>
+      <label>Email for your receipt<input name="customerEmail" type="email" autocomplete="email" maxlength="254" required value="{{formData.customerEmail}}"></label>
+      <label>Phone <span>(optional)</span><input name="customerPhone" type="tel" autocomplete="tel" maxlength="40" value="{{formData.customerPhone}}"></label>
+      <label>Street address<input name="addressLine1" autocomplete="address-line1" maxlength="120" required value="{{formData.addressLine1}}"></label>
+      <label>Apartment, unit, etc. <span>(optional)</span><input name="addressLine2" autocomplete="address-line2" maxlength="120" value="{{formData.addressLine2}}"></label>
+      <div class="address-row">
+        <label>City<input name="city" autocomplete="address-level2" maxlength="80" required value="{{formData.city}}"></label>
+        <label>Province or territory<input name="province" autocomplete="address-level1" maxlength="80" required value="{{formData.province}}"></label>
+        <label>Postal code<input name="postalCode" autocomplete="postal-code" maxlength="7" required value="{{formData.postalCode}}"></label>
+      </div>
+      <p class="shipping-note">Shipping is currently available within Canada.</p>
+      <button type="submit" id="place-order">Place order</button>
+    </form>
+  </section>
+</main>

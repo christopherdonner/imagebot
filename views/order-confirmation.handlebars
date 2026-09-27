@@ -1,0 +1,39 @@
+<main class="commerce-page order-confirmation">
+  <div class="commerce-heading">
+    <p class="commerce-kicker">ORDER RECEIVED</p>
+    <h2>Thank you, {{order.customerName}}</h2>
+    <p>Your reference is <strong>{{order.confirmationCode}}</strong>.</p>
+  </div>
+
+  {{#if emailSent}}
+  <p class="order-status" role="status">A receipt has been sent to {{order.customerEmail}}.</p>
+  {{else}}
+  <p class="order-status" role="status">Your order is saved, but the receipt email could not be sent. Please keep your order reference and contact <a href="mailto:christopher.donner@gmail.com">Christopher</a> if you need help.</p>
+  {{/if}}
+
+  <section class="receipt-lines" aria-label="Order items">
+    {{#each order.items}}
+    <article class="receipt-item">
+      <img src="{{this.image}}" alt="{{this.artworkName}}">
+      <div><h3>{{this.artworkName}}</h3><p>{{this.productLabel}} / {{this.variant}} / Qty {{this.quantity}}</p></div>
+      <strong>{{this.lineTotalDisplay}}</strong>
+    </article>
+    {{/each}}
+  </section>
+
+  <div class="receipt-total">
+    <p><span>Subtotal</span><strong>{{order.subtotalDisplay}}</strong></p>
+    <p><span>Shipping</span><strong>{{order.shippingDisplay}}</strong></p>
+    <p class="cart-total"><span>Total due by e-transfer</span><strong>{{order.totalDisplay}}</strong></p>
+  </div>
+  <section class="transfer-instructions">
+    <h3>Pay by e-transfer</h3>
+    {{#if paymentEmail}}
+    <p>Send <strong>{{order.totalDisplay}}</strong> to <strong>{{paymentEmail}}</strong> and include <strong>{{order.confirmationCode}}</strong> in the message.</p>
+    {{else}}
+    <p>Reply to your receipt email to arrange e-transfer payment. If your receipt did not arrive, contact <a href="mailto:christopher.donner@gmail.com">Christopher</a> and include your order reference.</p>
+    {{/if}}
+    <p>Your order will be prepared after payment is received. Shipping is within Canada.</p>
+  </section>
+  <p><a href="/">Return to the gallery</a></p>
+</main>

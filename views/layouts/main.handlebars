@@ -8,6 +8,7 @@
     <meta property="og:description" content="Gallery of chalk drawings by Christopher Donner">
     <meta property="og:content:image" content="https://christopherdonner.com/">
 <script src="/index.js"></script>
+<script src="/cart.js" defer></script>
 
     <link type="text/css" rel="stylesheet" href="/style.css" /> 
     <title>Christopher's Gallery!</title>
@@ -16,8 +17,26 @@
     <div class="overlay" onclick="shrinkAll()"></div>
         <div class="viewer hidden">
         <div id="last" onclick="previous()" ><</div>
+        <div class="viewer-content">
             <div class="image"></div>
             <div id="caption"></div>
+        </div>
+            <aside class="viewer-order" data-print4x6="{{commerce.print4x6}}" data-print8x10="{{commerce.print8x10}}" data-tshirt="{{commerce.tshirt}}">
+            <h2>Order this drawing</h2>
+            <label for="viewer-product">Item</label>
+            <select id="viewer-product">
+                <option value="print">Print</option>
+                <option value="tshirt">T-shirt</option>
+            </select>
+            <label for="viewer-variant">Size</label>
+            <select id="viewer-variant" aria-label="Select size">
+                <option value="4x6">4 x 6 in</option>
+                <option value="8x10">8 x 10 in</option>
+            </select>
+            <p class="viewer-price" id="viewer-price"></p>
+            <button type="button" id="add-to-cart">Add to cart</button>
+            <p id="cart-feedback" role="status" aria-live="polite"></p>
+        </aside>
         <div id="next" onclick="nextImage()">></div>
         <div id="close" onclick="closeViewer()">X</div>
     </div>

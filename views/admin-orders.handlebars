@@ -1,0 +1,76 @@
+<main class="commerce-page admin-orders">
+  <div class="commerce-heading">
+    <p class="commerce-kicker">ORDER MANAGEMENT</p>
+    <h2>Active orders</h2>
+    <p>{{orders.length}} orders awaiting fulfillment</p>
+  </div>
+
+  {{#if orders}}
+  <div class="admin-order-list">
+    {{#each orders}}
+    <section class="admin-order">
+      <div class="admin-order-heading">
+        <div>
+          <h3>{{this.confirmation_code}}</h3>
+          <time>{{this.created_at}} UTC</time>
+        </div>
+        <strong>{{this.totalDisplay}} CAD</strong>
+      </div>
+
+      <div class="admin-order-columns">
+        <div class="admin-customer">
+          <h4>Customer</h4>
+          <p><strong>{{this.customer_name}}</strong></p>
+          <p><a href="mailto:{{this.customer_email}}">{{this.customer_email}}</a></p>
+          {{#if this.customer_phone}}<p>{{this.customer_phone}}</p>{{/if}}
+          <p>{{this.address_line1}}{{#if this.address_line2}}, {{this.address_line2}}{{/if}}<br>{{this.city}}, {{this.province}} {{this.postal_code}}</p>
+        </div>
+
+        <div class="admin-order-status">
+          <h4>Status</h4>
+          <p>Payment: <strong>{{this.payment_status}}</strong> by e-transfer</p>
+          <p>Fulfillment: <strong>{{this.fulfillment_status}}</strong></p>
+          <p>Subtotal: {{this.subtotalDisplay}}</p>
+          <p>Shipping: {{this.shippingDisplay}}</p>
+          <form class="admin-status-form" action="/admin/orders/{{this.id}}/status" method="post">
+            <input type="hidden" name="adminCsrfToken" value="{{this.statusCsrfToken}}">
+            <label>Payment
+              <select name="paymentStatus">
+                <option value="pending" {{#if this.paymentPendingSelected}}selected{{/if}}>Pending</option>
+                <option value="paid" {{#if this.paymentPaidSelected}}selected{{/if}}>Paid</option>
+              </select>
+            </label>
+            <label>Fulfillment
+              <select name="fulfillmentStatus">
+                <option value="pending" {{#if this.fulfillmentPendingSelected}}selected{{/if}}>Pending</option>
+                <option value="shipped" {{#if this.fulfillmentShippedSelected}}selected{{/if}}>Shipped</option>
+              </select>
+            </label>
+            <button type="submit">Save status</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="admin-order-items">
+        <h4>Items</h4>
+        {{#each this.items}}
+        <div class="admin-order-item">
+          <img src="{{this.image}}" alt="">
+          <span>{{this.productLabel}} / {{this.variant}} / Qty {{this.quantity}}</span>
+          <strong>{{this.lineTotalDisplay}}</strong>
+        </div>
+        {{/each}}
+      </div>
+
+      <form class="admin-delete-form" action="/admin/orders/{{this.id}}/delete" method="post"
+        onsubmit="return confirm('Permanently delete order {{this.confirmation_code}}? This cannot be undone.');">
+        <input type="hidden" name="adminCsrfToken" value="{{this.deleteCsrfToken}}">
+        <button type="submit">Delete order</button>
+      </form>
+    </section>
+    {{/each}}
+  </div>
+  {{else}}
+  <p class="cart-empty">There are no active orders right now.</p>
+  {{/if}}
+</main>
