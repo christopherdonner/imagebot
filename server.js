@@ -210,7 +210,7 @@ async function buildGallery() {
             // Call blip for auto-captioning
             const caption = await blip(file);
 
-            imagesArray.push({
+            imagesArray.unshift({
               name: file,
               image: `img/${file}`,
               thumb: `img/${file}.thumb.png`,
@@ -282,10 +282,6 @@ app.get('/about', (req, res) => {
 
 app.get('/cv', (req, res) => {
   res.render("cv", { directoryListSimple: directoryListSimple, images: imagesArray });
-});
-
-app.get('/contact', (req, res) => {
-  res.render("contact", { directoryListSimple: directoryListSimple });
 });
 
 app.get('/cart', (req, res) => {

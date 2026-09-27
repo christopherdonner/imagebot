@@ -38,6 +38,33 @@ Example Linux setup with Certbot webroot validation:
 
 For local development without certificates, set `DEV_HTTP=true` and `NODE_ENV` to anything other than `production`; the app then serves plain HTTP on `PORT` and does not start the redirect/ACME listener. Never enable this mode in production. In production, leave `DEV_HTTP=false`, use `PORT=443`, and set `HTTP_PORT=80`.
 
+### Windows Certbot certificate access (`EPERM`)
+
+On Windows, Certbot may store versioned certificate files under `C:\Certbot\archive\<PUBLIC_HOSTNAME>` and expose stable names such as `fullchain.pem` and `privkey.pem` under `C:\Certbot\live\<PUBLIC_HOSTNAME>` as symlinks. The archive is expected; do not delete or move it. If Node reports `EPERM` reading a TLS file, the account running Node may lack access to the symlink target or one of its parent directories. A missing HTTPS listener then leaves the HTTP listener returning 503.
+
+1. In PowerShell, inspect the live links and identify the current versioned targets:
+
+	```powershell
+	cmd /c dir /al "C:\Certbot\live\<PUBLIC_HOSTNAME>"
+	icacls "C:\Certbot\archive\<PUBLIC_HOSTNAME>"
+	```
+
+	The link targets should refer to files such as `fullchain1.pem` and `privkey1.pem` in the archive directory. Do not replace valid links just because the files are archived.
+2. If the target is present but access is denied, open PowerShell as Administrator and grant read access to the account that runs Node. Substitute that account and the current target filename; grant only the permissions needed, and do not grant broad access to the private key:
+
+	```powershell
+	icacls "C:\Certbot\archive\<PUBLIC_HOSTNAME>\fullchain1.pem" /grant "<NODE_ACCOUNT>:(R)"
+	```
+
+	Apply access to `privkey1.pem` only if Node cannot read that target too, and keep its ACL restricted to the Node account and administrators. The Node account also needs directory traversal/read access along the symlink target path. If an explicit deny entry is present, review and correct that specific ACL rather than granting access to `Everyone`.
+3. In a non-elevated PowerShell running as the Node account, verify that the live certificate path is readable without printing its contents:
+
+	```powershell
+	node -e "require('fs').readFileSync('C:/Certbot/live/<PUBLIC_HOSTNAME>/fullchain.pem'); console.log('fullchain readable')"
+	```
+
+4. Restart the Node service. Confirm the log says `HTTPS server listening on port 443`, then test the HTTPS site. If the link target does not exist, repair the Certbot live link to the intended versioned archive file instead of moving or deleting the archived certificates.
+
 ## Orders and the drawing shop
 
 The viewer lets customers add a selected drawing as a print or T-shirt. Prints are available in 4 x 6 and 8 x 10 inch sizes; T-shirts are available in S, M, L, XL, and XXL. The cart stays in the customer's browser until checkout. Orders and line items are then saved to SQLite in `data/orders.sqlite` (override with `ORDERS_DB_PATH`). Keep backups of this file; it contains customer contact and shipping details. The database directory is excluded from Git.

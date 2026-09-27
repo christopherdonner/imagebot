@@ -7,13 +7,14 @@ function view(that, id) {
 }
 
 function showViewerImage(sourceImage, id) {
-    const viewer = document.querySelector('.viewer');
-    const viewerImage = viewer.querySelector('.image');
-    const captionElement = document.querySelector('#caption');
-    const artworkPath = (sourceImage.getAttribute('full') || sourceImage.getAttribute('src')).replace(/^\/+/, '');
-    const artworkUrl = `/${artworkPath.split('/').map(encodeURIComponent).join('/')}`;
-    const link = document.createElement('a');
-    const image = document.createElement('img');
+    const viewer = document.querySelector('.viewer'),
+        viewerImage = viewer.querySelector('.image'),
+        captionElement = document.querySelector('#caption'),
+        artworkPath = (sourceImage.getAttribute('full') || sourceImage.getAttribute('src')).replace(/^\/+/, ''),
+        artworkUrl = `/${artworkPath.split('/').map(encodeURIComponent).join('/')}`,
+        link = document.createElement('a'),
+        image = document.createElement('img'),
+        cartfeedback = document.querySelector('#cart-feedback');
 
     link.href = artworkUrl;
     image.src = artworkUrl;
@@ -25,19 +26,20 @@ function showViewerImage(sourceImage, id) {
     viewer.dataset.artworkPath = artworkPath;
     viewer.dataset.artworkName = sourceImage.alt || 'Drawing';
     viewer.id = id;
+    cartfeedback.textContent ? cartfeedback.textContent = '' : null;
 
     if (typeof updateViewerPrice === 'function') updateViewerPrice();
 }
 
 function nextImage() {
-    const nextID = parseInt(document.querySelector('.viewer').id, 10) + 1;
-    const nextArtwork = document.querySelector(`img[data-id='${nextID}']`);
+    const nextID = parseInt(document.querySelector('.viewer').id, 10) - 1,
+        nextArtwork = document.querySelector(`img[data-id='${nextID}']`);
     if (nextArtwork) showViewerImage(nextArtwork, nextID);
 }
 
 
 function previous() {
-    const previousID = parseInt(document.querySelector('.viewer').id, 10) - 1;
+    const previousID = parseInt(document.querySelector('.viewer').id, 10) + 1;
     const previousArtwork = document.querySelector(`img[data-id='${previousID}']`);
     if (previousArtwork) showViewerImage(previousArtwork, previousID);
 }

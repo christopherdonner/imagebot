@@ -89,7 +89,13 @@ function addViewerItem() {
   }
   writeCart(cart);
   renderCart();
-  if (feedback) feedback.textContent = 'Added to your cart.';
+  if (feedback) {
+    feedback.replaceChildren(document.createTextNode('Added to your cart. '));
+    const cartLink = document.createElement('a');
+    cartLink.href = '/cart';
+    cartLink.textContent = 'View cart';
+    feedback.appendChild(cartLink);
+  }
 }
 
 function createCartRow(item, prices) {
